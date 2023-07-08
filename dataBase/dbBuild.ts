@@ -16,10 +16,17 @@ const buildTables = async() => {
     CREATE TABLE players(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
                        first_name VARCHAR(15) NOT NULL,
                        last_name VARCHAR(15) NOT NULL,
-                       email_address VARCHAR(15) NOT NULL,
+                       email_address VARCHAR(15) NOT NULL UNIQUE,
                        password VARCHAR(100) NOT NULL);
             
-    CREATE TABLE characters(id SERIAL PRIMARY KEY NOT NULL UNIQUE)
+    CREATE TABLE characters(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+                            player_id INTEGER REFERENCES players(id) NOT NULL,
+                            level INTEGER NOT NULL,
+                            hit_points INTEGER NOT NULL,
+                            first_name VARCHAR(25) NOT NULL,
+                            last_name VARCHAR(25),
+                            class_id INTEGER,
+                            species_id INTEGER);
 
   `);
   console.log('FINISHED BUILDING TABLES');
