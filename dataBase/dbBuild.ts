@@ -24,7 +24,7 @@ const buildTables = async() => {
                        first_name VARCHAR(15) NOT NULL,
                        last_name VARCHAR(15) NOT NULL,
                        email_address VARCHAR(30) NOT NULL UNIQUE,
-                       password VARCHAR(100) NOT NULL);
+                       password VARCHAR(110) NOT NULL);
     
     CREATE TABLE classes(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
                          name VARCHAR(15) NOT NULL UNIQUE);      
