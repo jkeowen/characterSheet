@@ -9,15 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createClassList = void 0;
+exports.createSpeciesList = exports.createClassList = void 0;
 const axios = require('axios');
 const API_URL = 'https://www.dnd5eapi.co';
-const fetchAllClassNames = () => __awaiter(void 0, void 0, void 0, function* () {
-    const response = yield axios.get(`${API_URL}/api/classes`);
+const fetchAllCategory = (category) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield axios.get(`${API_URL}/api/${category}`);
     return response.data.results;
 });
 const createClassList = () => __awaiter(void 0, void 0, void 0, function* () {
-    const classes = yield fetchAllClassNames();
+    const classes = yield fetchAllCategory('classes');
     const classList = [];
     for (let i = 0; i < classes.length; i++) {
         const response = yield axios.get(`${API_URL}${classes[i].url}`);
@@ -27,4 +27,14 @@ const createClassList = () => __awaiter(void 0, void 0, void 0, function* () {
     return classList;
 });
 exports.createClassList = createClassList;
-(0, exports.createClassList)();
+const createSpeciesList = () => __awaiter(void 0, void 0, void 0, function* () {
+    const species = yield fetchAllCategory('races');
+    const speciesList = [];
+    for (let i = 0; i < species.length; i++) {
+        const response = yield axios.get(`${API_URL}${species[i].url}`);
+        speciesList.push({ name: response.data.name,
+            size: response.data.size });
+    }
+    return speciesList;
+});
+exports.createSpeciesList = createSpeciesList;
