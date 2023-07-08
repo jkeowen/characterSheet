@@ -4,6 +4,7 @@ const client = require('./client.js');
 const dropTables = async() => {
   console.log('DROPPING TABLES');
   await client.query(`
+    DROP TABLE IF EXISTS ability_scores;
     DROP TABLE IF EXISTS proficiencies; 
     DROP TABLE IF EXISTS characters;
     DROP TABLE IF EXISTS species;
@@ -37,6 +38,15 @@ const buildTables = async() => {
                             last_name VARCHAR(25),
                             class_id INTEGER REFERENCES classes(id),
                             species_id INTEGER REFERENCES species(id));
+
+    CREATE TABLE ability_scores(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+                           character_id INTEGER NOT NULL REFERENCES characters(id),
+                           strength INTEGER NOT NULL,
+                           dexterity INTEGER NOT NULL,
+                           constituation INTEGER NOT NULL,
+                           intelligence INTEGER NOT NULL,
+                           wisdom INTEGER NOT NULL,
+                           charisma INTEGER NOT NULL);
 
     CREATE TABLE skills(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
                         name VARCHAR(15) NOT NULL UNIQUE,
