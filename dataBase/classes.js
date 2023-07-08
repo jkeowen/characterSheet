@@ -9,10 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertClass = void 0;
+exports.getClassByName = exports.getClassById = exports.getAllClasses = exports.insertClasses = void 0;
 const client_1 = require("./client");
 const fetchAPIData_1 = require("./fetchAPIData");
-const insertClass = () => __awaiter(void 0, void 0, void 0, function* () {
+const insertClasses = () => __awaiter(void 0, void 0, void 0, function* () {
     const classList = yield (0, fetchAPIData_1.createClassList)();
     for (let i = 0; i < classList.length; i++) {
         const { rows: [aClass] } = yield client_1.client.query(`
@@ -23,4 +23,28 @@ const insertClass = () => __awaiter(void 0, void 0, void 0, function* () {
     }
     ;
 });
-exports.insertClass = insertClass;
+exports.insertClasses = insertClasses;
+const getAllClasses = () => __awaiter(void 0, void 0, void 0, function* () {
+    const { rows: classes } = yield client_1.client.query(`
+    SELECT * FROM classes;
+  `);
+    return classes;
+});
+exports.getAllClasses = getAllClasses;
+const getClassById = (classId) => __awaiter(void 0, void 0, void 0, function* () {
+    const { rows: [thisClass] } = yield client_1.client.query(`
+    SELECT * FROM classes 
+    WHERE id = $1;
+  `, [classId]);
+    return thisClass;
+});
+exports.getClassById = getClassById;
+const getClassByName = (className) => __awaiter(void 0, void 0, void 0, function* () {
+    const { rows: [thisClass] } = yield client_1.client.query(`
+    SELECT * FROM classes 
+    WHERE name = $1;
+  `, [className]);
+    console.log(thisClass);
+    return thisClass;
+});
+exports.getClassByName = getClassByName;

@@ -89,9 +89,9 @@ const createNewPlayers = () => __awaiter(void 0, void 0, void 0, function* () {
     // await createNewPlayer("Emily", "DuBoulay", "em@email.com", "password1234");
     console.log("FINISHED CREATING PLAYERS");
 });
-const createClass = () => __awaiter(void 0, void 0, void 0, function* () {
+const createClasses = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log("CREATING CLASS");
-    yield (0, classes_1.insertClass)();
+    yield (0, classes_1.insertClasses)();
     console.log("FINISHED CREATING CLASS");
 });
 const syncAndSeed = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -101,7 +101,8 @@ const syncAndSeed = () => __awaiter(void 0, void 0, void 0, function* () {
     yield dropTables();
     yield buildTables();
     yield createNewPlayers();
-    yield createClass();
+    yield createClasses();
+    yield (0, classes_1.getClassByName)("Paladin");
     console.log('DISCONNECTING FROM DATABASE');
     client_1.client.end();
     console.log('DISCONNECTED FROM DATABASE');
