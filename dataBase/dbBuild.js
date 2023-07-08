@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("./client");
 const players_1 = require("./players");
+const classes_1 = require("./classes");
 const dropTables = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log('DROPPING TABLES');
     yield client_1.client.query(`
@@ -36,7 +37,8 @@ const buildTables = () => __awaiter(void 0, void 0, void 0, function* () {
                        password VARCHAR(110) NOT NULL);
     
     CREATE TABLE classes(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
-                         name VARCHAR(15) NOT NULL UNIQUE);      
+                         name VARCHAR(15) NOT NULL UNIQUE,
+                         hit_die INTEGER NOT NULL);      
     
     CREATE TABLE species(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
                          name VARCHAR(15) NOT NULL UNIQUE); 
@@ -87,6 +89,11 @@ const createNewPlayers = () => __awaiter(void 0, void 0, void 0, function* () {
     // await createNewPlayer("Emily", "DuBoulay", "em@email.com", "password1234");
     console.log("FINISHED CREATING PLAYERS");
 });
+const createClass = () => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("CREATING CLASS");
+    yield (0, classes_1.insertClass)();
+    console.log("FINISHED CREATING CLASS");
+});
 const syncAndSeed = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log('CONNECTING TO DATABASE');
     client_1.client.connect();
@@ -94,6 +101,7 @@ const syncAndSeed = () => __awaiter(void 0, void 0, void 0, function* () {
     yield dropTables();
     yield buildTables();
     yield createNewPlayers();
+    yield createClass();
     console.log('DISCONNECTING FROM DATABASE');
     client_1.client.end();
     console.log('DISCONNECTED FROM DATABASE');

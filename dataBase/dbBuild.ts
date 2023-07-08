@@ -1,6 +1,7 @@
 
 import { client } from "./client";
 import { createNewPlayer } from "./players"
+import { insertClass } from "./classes";
 
 
 const dropTables = async() => {
@@ -29,7 +30,8 @@ const buildTables = async() => {
                        password VARCHAR(110) NOT NULL);
     
     CREATE TABLE classes(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
-                         name VARCHAR(15) NOT NULL UNIQUE);      
+                         name VARCHAR(15) NOT NULL UNIQUE,
+                         hit_die INTEGER NOT NULL);      
     
     CREATE TABLE species(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
                          name VARCHAR(15) NOT NULL UNIQUE); 
@@ -83,6 +85,11 @@ const createNewPlayers = async() => {
   console.log("FINISHED CREATING PLAYERS");
 }
 
+const createClass = async() => {
+  console.log("CREATING CLASS");
+  await insertClass();
+  console.log("FINISHED CREATING CLASS")
+}
 
 const syncAndSeed = async() => {
 
@@ -92,6 +99,7 @@ const syncAndSeed = async() => {
   await dropTables();
   await buildTables();
   await createNewPlayers();
+  await createClass();
   console.log('DISCONNECTING FROM DATABASE');
   client.end();
   console.log('DISCONNECTED FROM DATABASE');
