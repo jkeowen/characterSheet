@@ -13,6 +13,7 @@ const client_1 = require("./client");
 const players_1 = require("./players");
 const classes_1 = require("./classes");
 const species_1 = require("./species");
+const characters_1 = require("./characters");
 const dropTables = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log('DROPPING TABLES');
     yield client_1.client.query(`
@@ -109,6 +110,8 @@ const syncAndSeed = () => __awaiter(void 0, void 0, void 0, function* () {
     yield createNewPlayers();
     yield createClasses();
     yield createSpecies();
+    yield (0, characters_1.createNewCharacter)(1, 1, 'test', 'test', 1, 1);
+    yield (0, characters_1.putTogetherCharacter)(1);
     console.log('DISCONNECTING FROM DATABASE');
     client_1.client.end();
     console.log('DISCONNECTED FROM DATABASE');

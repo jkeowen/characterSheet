@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createNewPlayer = void 0;
+exports.getPlayerNameById = exports.createNewPlayer = void 0;
 const client_1 = require("./client");
 const bcrypt = require('bcrypt');
 const createNewPlayer = (firstName, lastName, emailAddress, password) => __awaiter(void 0, void 0, void 0, function* () {
@@ -23,3 +23,12 @@ const createNewPlayer = (firstName, lastName, emailAddress, password) => __await
     return player;
 });
 exports.createNewPlayer = createNewPlayer;
+const getPlayerNameById = (playerId) => __awaiter(void 0, void 0, void 0, function* () {
+    const { rows: [name] } = yield client_1.client.query(`
+    SELECT first_name, last_name 
+    FROM players
+    WHERE id = $1;
+  `, [playerId]);
+    return `${name.first_name} ${name.last_name}`;
+});
+exports.getPlayerNameById = getPlayerNameById;

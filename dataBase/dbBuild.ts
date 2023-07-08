@@ -1,8 +1,9 @@
 
 import { client } from "./client";
-import { createNewPlayer } from "./players"
+import { createNewPlayer, getPlayerNameById } from "./players"
 import { insertClasses, getAllClasses, getClassById, getClassByName } from "./classes";
 import { insertSpecies, getAllSpecies, getSpeciesById, getSpeciesByName } from "./species";
+import { createNewCharacter, getCharacterById, putTogetherCharacter } from "./characters";
 
 
 const dropTables = async() => {
@@ -108,6 +109,8 @@ const syncAndSeed = async() => {
   await createNewPlayers();
   await createClasses();
   await createSpecies();
+  await createNewCharacter(1, 1, 'test', 'test', 1, 1);
+  await putTogetherCharacter(1);
   console.log('DISCONNECTING FROM DATABASE');
   client.end();
   console.log('DISCONNECTED FROM DATABASE');
