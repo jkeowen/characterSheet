@@ -14,8 +14,10 @@ const players_1 = require("./players");
 const dropTables = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log('DROPPING TABLES');
     yield client_1.client.query(`
+    DROP TABLE IF EXISTS character_equip_prof;
+    DROP TABLE IF EXISTS equipment_proficiencies;
     DROP TABLE IF EXISTS ability_scores;
-    DROP TABLE IF EXISTS proficiencies; 
+    DROP TABLE IF EXISTS character_skill_prof; 
     DROP TABLE IF EXISTS characters;
     DROP TABLE IF EXISTS species;
     DROP TABLE IF EXISTS classes;
@@ -61,10 +63,21 @@ const buildTables = () => __awaiter(void 0, void 0, void 0, function* () {
                         name VARCHAR(15) NOT NULL UNIQUE,
                         ability VARCHAR(10));
 
-    CREATE TABLE proficiencies(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
-                               character_id INTEGER NOT NULL,
-                               skill_id INTEGER NOT NULL);
-                    
+    CREATE TABLE equipment_proficiencies(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+                                         name VARCHAR(20) NOT NULL UNIQUE,
+                                         description VARCHAR(50) NOT NULL);
+
+    CREATE TABLE character_skill_prof(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+                               character_id INTEGER REFERENCES characters(id) NOT NULL,
+                               skill_id INTEGER REFERENCES skills(id) NOT NULL);
+
+    CREATE TABLE character_equip_prof(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+                                character_id INTEGER REFERENCES characters(id) NOT NULL,
+                                equip_id INTEGER REFERENCES equipment_proficiencies(id) NOT NULL);
+    
+    
+    
+                               
   `);
     console.log('FINISHED BUILDING TABLES');
 });
