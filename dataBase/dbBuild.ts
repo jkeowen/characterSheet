@@ -1,5 +1,7 @@
 
-const client = require('./client.js');
+import { client } from "./client";
+import { createNewPlayer } from "./players"
+
 
 const dropTables = async() => {
   console.log('DROPPING TABLES');
@@ -21,7 +23,7 @@ const buildTables = async() => {
     CREATE TABLE players(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
                        first_name VARCHAR(15) NOT NULL,
                        last_name VARCHAR(15) NOT NULL,
-                       email_address VARCHAR(15) NOT NULL UNIQUE,
+                       email_address VARCHAR(30) NOT NULL UNIQUE,
                        password VARCHAR(100) NOT NULL);
     
     CREATE TABLE classes(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
@@ -60,6 +62,14 @@ const buildTables = async() => {
   console.log('FINISHED BUILDING TABLES');
 }
 
+const createNewPlayers = async() => {
+  console.log("CREATING NEW PLAYERS");
+  await createNewPlayer("Justin", "Keowen", "justin@email.com", "password1234");
+  // await createNewPlayer("Emily", "DuBoulay", "em@email.com", "password1234");
+  
+  console.log("FINISHED CREATING PLAYERS");
+}
+
 
 const syncAndSeed = async() => {
 
@@ -68,6 +78,7 @@ const syncAndSeed = async() => {
   console.log('CONNECTED TO DATABASE');
   await dropTables();
   await buildTables();
+  await createNewPlayers();
   console.log('DISCONNECTING FROM DATABASE');
   client.end();
   console.log('DISCONNECTED FROM DATABASE');
