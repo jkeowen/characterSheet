@@ -20,7 +20,6 @@ const createNewPlayer = (firstName, lastName, emailAddress, password) => __await
     RETURNING *;
   `, [firstName, lastName, emailAddress]);
     delete player.password;
-    console.log(player);
     return player;
 });
 exports.createNewPlayer = createNewPlayer;

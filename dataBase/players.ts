@@ -9,7 +9,6 @@ export const createNewPlayer = async(firstName: string, lastName: string, emailA
     RETURNING *;
   `, [firstName, lastName, emailAddress]);
   delete player.password;
-  console.log(player);
   return player;
 }
 

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("./client");
 const players_1 = require("./players");
 const classes_1 = require("./classes");
+const species_1 = require("./species");
 const dropTables = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log('DROPPING TABLES');
     yield client_1.client.query(`
@@ -41,7 +42,8 @@ const buildTables = () => __awaiter(void 0, void 0, void 0, function* () {
                          hit_die INTEGER NOT NULL);      
     
     CREATE TABLE species(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
-                         name VARCHAR(15) NOT NULL UNIQUE); 
+                         name VARCHAR(15) NOT NULL UNIQUE,
+                         size VARCHAR(15) NOT NULL); 
                 
     CREATE TABLE characters(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
                             player_id INTEGER REFERENCES players(id) NOT NULL,
@@ -86,13 +88,17 @@ const buildTables = () => __awaiter(void 0, void 0, void 0, function* () {
 const createNewPlayers = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log("CREATING NEW PLAYERS");
     yield (0, players_1.createNewPlayer)("Justin", "Keowen", "justin@email.com", "password1234");
-    // await createNewPlayer("Emily", "DuBoulay", "em@email.com", "password1234");
     console.log("FINISHED CREATING PLAYERS");
 });
 const createClasses = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log("CREATING CLASS");
     yield (0, classes_1.insertClasses)();
     console.log("FINISHED CREATING CLASS");
+});
+const createSpecies = () => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('CREATING SPECIES');
+    yield (0, species_1.insertSpecies)();
+    console.log("FINISHED CREATING SPECIES");
 });
 const syncAndSeed = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log('CONNECTING TO DATABASE');
@@ -102,7 +108,7 @@ const syncAndSeed = () => __awaiter(void 0, void 0, void 0, function* () {
     yield buildTables();
     yield createNewPlayers();
     yield createClasses();
-    yield (0, classes_1.getClassByName)("Paladin");
+    yield createSpecies();
     console.log('DISCONNECTING FROM DATABASE');
     client_1.client.end();
     console.log('DISCONNECTED FROM DATABASE');
