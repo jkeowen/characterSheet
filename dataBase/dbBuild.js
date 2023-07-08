@@ -8,10 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const client = require('./client.js');
+Object.defineProperty(exports, "__esModule", { value: true });
+const client_1 = require("./client");
+const players_1 = require("./players");
 const dropTables = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log('DROPPING TABLES');
-    yield client.query(`
+    yield client_1.client.query(`
     DROP TABLE IF EXISTS ability_scores;
     DROP TABLE IF EXISTS proficiencies; 
     DROP TABLE IF EXISTS characters;
@@ -24,11 +26,11 @@ const dropTables = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 const buildTables = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log('BUILDING TABLES');
-    yield client.query(`
+    yield client_1.client.query(`
     CREATE TABLE players(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
                        first_name VARCHAR(15) NOT NULL,
                        last_name VARCHAR(15) NOT NULL,
-                       email_address VARCHAR(15) NOT NULL UNIQUE,
+                       email_address VARCHAR(30) NOT NULL UNIQUE,
                        password VARCHAR(100) NOT NULL);
     
     CREATE TABLE classes(id SERIAL PRIMARY KEY NOT NULL UNIQUE,
@@ -66,14 +68,21 @@ const buildTables = () => __awaiter(void 0, void 0, void 0, function* () {
   `);
     console.log('FINISHED BUILDING TABLES');
 });
+const createNewPlayers = () => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("CREATING NEW PLAYERS");
+    yield (0, players_1.createNewPlayer)("Justin", "Keowen", "justin@email.com", "password1234");
+    // await createNewPlayer("Emily", "DuBoulay", "em@email.com", "password1234");
+    console.log("FINISHED CREATING PLAYERS");
+});
 const syncAndSeed = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log('CONNECTING TO DATABASE');
-    client.connect();
+    client_1.client.connect();
     console.log('CONNECTED TO DATABASE');
     yield dropTables();
     yield buildTables();
+    yield createNewPlayers();
     console.log('DISCONNECTING FROM DATABASE');
-    client.end();
+    client_1.client.end();
     console.log('DISCONNECTED FROM DATABASE');
 });
 syncAndSeed();
