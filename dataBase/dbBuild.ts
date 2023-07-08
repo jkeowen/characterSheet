@@ -1,7 +1,7 @@
 
 import { client } from "./client";
 import { createNewPlayer } from "./players"
-import { insertClass } from "./classes";
+import { insertClasses, getAllClasses, getClassById, getClassByName } from "./classes";
 
 
 const dropTables = async() => {
@@ -85,9 +85,9 @@ const createNewPlayers = async() => {
   console.log("FINISHED CREATING PLAYERS");
 }
 
-const createClass = async() => {
+const createClasses = async() => {
   console.log("CREATING CLASS");
-  await insertClass();
+  await insertClasses();
   console.log("FINISHED CREATING CLASS")
 }
 
@@ -99,7 +99,8 @@ const syncAndSeed = async() => {
   await dropTables();
   await buildTables();
   await createNewPlayers();
-  await createClass();
+  await createClasses();
+  await getClassByName("Paladin");
   console.log('DISCONNECTING FROM DATABASE');
   client.end();
   console.log('DISCONNECTED FROM DATABASE');
